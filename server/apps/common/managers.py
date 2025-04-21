@@ -8,10 +8,5 @@ class GetOrNoneQuerySet(models.QuerySet):
         except self.model.DoesNotExist:
             return None
 
-class GetOrNoneManager(models.Manager):
-    """Adds get_or_none method to objects"""
-    def get_query_set(self):
-        return GetOrNoneQuerySet(self.model)
-
-    def get_or_none(self,**kwargs):
-        return GetOrNoneQuerySet(self.model).get_or_none(**kwargs)
+"""custom manager"""
+GetOrNoneManager=models.Manager.from_queryset(GetOrNoneQuerySet)

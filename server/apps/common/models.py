@@ -1,3 +1,18 @@
+import uuid
+from apps.common.managers import GetOrNoneManager
 from django.db import models
 
-# Create your models here.
+class BaseModel(models.Model):
+    """base model with common fields
+    Attributes:
+        id (UUIDField): Unique identifier for the model instance.
+        created_at (DateTimeField): Timestamp when the instance was created.
+        updated_at (DateTimeField): Timestamp when the instance was last updated.
+    """
+
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False,unique=True)#editable-block editing
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    objects=GetOrNoneManager()
+    class Meta:
+        abstract = True
