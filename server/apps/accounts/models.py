@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from apps.accounts.managers import CustomUserManager
 
 from apps.common.models import IsDeletedModel
 
