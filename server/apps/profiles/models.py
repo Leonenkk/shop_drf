@@ -24,14 +24,15 @@ class ShippingAddress(BaseModel):
     user=models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
-        related_name='shipping_address'
+        related_name='shipping_address',
+        verbose_name='Пользователь'
     )
-    full_name=models.CharField(max_length=255)
-    email=models.EmailField()
-    phone=PhoneNumberField(null=True,region='BY')
-    address=models.CharField(max_length=255,null=True)
-    country=models.CharField(max_length=200,null=True)
-    zipcode=models.CharField(max_length=6,null=True)
+    full_name=models.CharField(max_length=255,verbose_name='ФИО')
+    email=models.EmailField(verbose_name='Адрес электронной почты')
+    phone=PhoneNumberField(null=True,region='BY',verbose_name='Номер телефона')
+    address=models.CharField(max_length=255,null=True,verbose_name='Адрес доставки')
+    country=models.CharField(max_length=200,null=True,verbose_name='Страна доставки')
+    zip_code=models.CharField(max_length=6,null=True,verbose_name='Почтовый индекс')
 
     def __str__(self):
         return f"{self.full_name}'s shipping details"
