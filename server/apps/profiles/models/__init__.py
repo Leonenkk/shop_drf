@@ -1,3 +1,4 @@
 from apps.profiles.models.shipping_address import ShippingAddress
-
-__all__ = ['ShippingAddress']
+from apps.profiles.models.order import Order
+from apps.profiles.models.order_item import OrderItem
+__all__ = ['ShippingAddress', 'Order', 'OrderItem']
