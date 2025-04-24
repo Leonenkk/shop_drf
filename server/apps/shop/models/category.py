@@ -20,7 +20,7 @@ class Category(BaseModel):
     slug=AutoSlugField(populate_from='name',verbose_name='Slug')
     image=models.ImageField(
         upload_to='category_images/',
-        validators=FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+        validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'webp', 'jpeg', 'gif'])],
         verbose_name='Фото категории',
         blank=True,
     )

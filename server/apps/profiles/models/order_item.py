@@ -20,26 +20,30 @@ class OrderItem(BaseModel):
         get_total_price()
             Return item total price
     """
+    # if user is anonymous
     user=models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='order_items',
         blank=True,
-        null=True
+        null=True,
+        verbose_name='Пользователь'
     )
     order=models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
         related_name='order_items',
         blank=True,
-        null=True
+        null=True,
+        verbose_name='Заказ'
     )
     product=models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
         related_name='order_items',
+        verbose_name='Продукт'
     )
-    quantity=models.PositiveIntegerField(default=1)
+    quantity=models.PositiveIntegerField(default=1,verbose_name='Количество')
 
     @property
     def get_total_price(self):

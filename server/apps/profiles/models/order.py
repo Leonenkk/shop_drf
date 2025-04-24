@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.common.models import BaseModel
 from apps.common.utils import generate_unique_code
@@ -36,11 +36,35 @@ class Order(BaseModel):
             save(*args, **kwargs):
                 Overrides the save method to generate a unique transaction reference when a new order is created.
         """
-    user=models.ForeignKey(get_user_model(), on_delete=models.CASCADE,related_name='orders')
-    tx_ref=models.CharField(max_length=100,unique=True,null=True)
-    delivery_status=models.CharField(choices=DELIVERY_STATUS_CHOICES,max_length=8,default='PENDING')
-    payment_status=models.CharField(choices=PAYMENT_STATUS_CHOICES,max_length=10,default='PENDING')
-    date_delivered=models.DateTimeField(null=True,blank=True)
+    user=models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Пользователь'
+    )
+    tx_ref=models.CharField(
+        max_length=100,
+        unique=True,
+        null=True,
+        verbose_name='Уникальный код'
+    )
+    delivery_status=models.CharField(
+        choices=DELIVERY_STATUS_CHOICES,
+        max_length=8,
+        default='PENDING',
+        verbose_name='Статус доставки'
+    )
+    payment_status=models.CharField(
+        choices=PAYMENT_STATUS_CHOICES,
+        max_length=10,
+        default='PENDING',
+        verbose_name='Статус оплаты'
+    )
+    date_delivered=models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name='Дата доставки'
+    )
     #ShippingAddress fields
     full_name=models.CharField(max_length=255,null=True)
     email=models.EmailField(null=True)

@@ -11,8 +11,8 @@ class BaseModel(models.Model):
     """
 
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)#editable-block editing
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now=True)
+    created_at=models.DateTimeField(auto_now_add=True,verbose_name='Создана в')
+    updated_at=models.DateTimeField(auto_now=True, verbose_name='Обновлена в ')
     objects=GetOrNoneManager()
     class Meta:
         abstract = True

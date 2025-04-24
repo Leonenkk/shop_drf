@@ -79,7 +79,7 @@ class ProductImages(BaseModel):
     )
     image=models.ImageField(
         upload_to=product_image_upload_to,
-        validators=FileExtensionValidator(['png', 'jpg', 'jpeg', 'gif']),
+        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg', 'gif'])],
         verbose_name='Фото товара'
     )
     order = models.PositiveIntegerField(default=0, verbose_name='Порядок')

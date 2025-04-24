@@ -11,8 +11,8 @@ class IsDeletedModel(BaseModel):
         is_deleted: bool
         deleted_at: datetime
     """
-    is_deleted = models.BooleanField(default=False)
-    deleted_at = models.DateTimeField(blank=True)
+    is_deleted = models.BooleanField(default=False,verbose_name='Удалена')
+    deleted_at = models.DateTimeField(blank=True,verbose_name='Удалена в')
     objects = IsDeletedManager()
 
     class Meta:
