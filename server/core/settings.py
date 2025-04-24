@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'phonenumber_field',
     #my_apps
+    'drf_spectacular',
     'apps.accounts',
     'apps.shop',
     'apps.sellers',
@@ -135,3 +136,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Shop drf',
+    'DESCRIPTION': 'My project',
+    'VERSION': '1.0.0',
+}

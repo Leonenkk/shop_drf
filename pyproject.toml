@@ -15,5 +15,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "drf-spectacular>=0.28.0",
     "psycopg[binary]>=3.2.6",
+]
+docs = [
+    "drf-spectacular>=0.28.0",
 ]
