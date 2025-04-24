@@ -14,7 +14,6 @@ class ShippingAddress(BaseModel):
         email (EmailField): The email address of the recipient.
         phone (PhoneNumberField): The phone number of the recipient.
         address (str): The street address of the recipient.
-        city (str): The city of the recipient.
         country (str): The country of the recipient.
         zipcode (str): The postal code of the recipient.
     Methods:
@@ -32,7 +31,7 @@ class ShippingAddress(BaseModel):
     phone=PhoneNumberField(null=True,region='BY',verbose_name='Номер телефона')
     address=models.CharField(max_length=255,null=True,verbose_name='Адрес доставки')
     country=models.CharField(max_length=200,null=True,verbose_name='Страна доставки')
-    zip_code=models.CharField(max_length=6,null=True,verbose_name='Почтовый индекс')
+    zipcode=models.CharField(max_length=6,null=True,verbose_name='Почтовый индекс')
 
     def __str__(self):
         return f"{self.full_name}'s shipping details"
