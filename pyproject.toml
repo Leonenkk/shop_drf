@@ -8,6 +8,7 @@ dependencies = [
     "django-autoslug>=1.9.9",
     "django-phonenumber-field[phonenumbers]>=8.1.0",
     "djangorestframework>=3.16.0",
+    "djangorestframework-simplejwt>=5.5.0",
     "load-dotenv>=0.1.0",
     "pillow>=11.2.1",
     "psycopg>=3.2.6",
