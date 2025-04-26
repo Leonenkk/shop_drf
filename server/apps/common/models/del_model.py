@@ -12,7 +12,7 @@ class IsDeletedModel(BaseModel):
         deleted_at: datetime
     """
     is_deleted = models.BooleanField(default=False,verbose_name='Удалена')
-    deleted_at = models.DateTimeField(blank=True,verbose_name='Удалена в')
+    deleted_at = models.DateTimeField(blank=True,null=True,verbose_name='Удалена в')
     objects = IsDeletedManager()
 
     class Meta:
