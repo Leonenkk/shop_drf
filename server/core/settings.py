@@ -128,7 +128,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-MEDIA_ROOT = BASE_DIR.parent / 'media'
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
@@ -156,6 +156,9 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Shop drf',
     'DESCRIPTION': 'My project',
     'VERSION': '1.0.0',
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+    },
 }
 
 
