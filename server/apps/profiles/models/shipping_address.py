@@ -28,13 +28,11 @@ class ShippingAddress(BaseModel):
     )
     full_name=models.CharField(max_length=255,verbose_name='ФИО')
     email=models.EmailField(verbose_name='Адрес электронной почты')
-    phone=PhoneNumberField(null=True,region='BY',verbose_name='Номер телефона')
-    address=models.CharField(max_length=255,null=True,verbose_name='Адрес доставки')
-    country=models.CharField(max_length=200,null=True,verbose_name='Страна доставки')
-    zipcode=models.CharField(max_length=6,null=True,verbose_name='Почтовый индекс')
+    phone=PhoneNumberField(region='BY',verbose_name='Номер телефона')
+    address=models.CharField(max_length=255,verbose_name='Адрес доставки')
+    city=models.CharField(max_length=200,verbose_name='Город доставки')
+    country=models.CharField(max_length=200,verbose_name='Страна доставки')
+    zipcode=models.CharField(max_length=6,verbose_name='Почтовый индекс')
 
     def __str__(self):
         return f"{self.full_name}'s shipping details"
-
-
-

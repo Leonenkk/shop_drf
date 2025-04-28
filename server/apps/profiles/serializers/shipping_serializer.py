@@ -14,14 +14,9 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
             'address',
             'country',
             'zipcode',
+            'city'
         ]
         read_only_fields=('id',)
-        extra_kwargs={
-            'address': {'required': True},
-            'country': {'required': True},
-            'zipcode': {'required': True},
-            'phone': {'required': True}
-        }
 
     def create(self, validated_data):
         try:
