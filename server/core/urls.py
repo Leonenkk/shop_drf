@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('apps.accounts.urls')),
     path('profiles/', include('apps.profiles.urls')),
+    path('sellers/', include('apps.sellers.urls')),
 ]
 
 debug_patterns = [
