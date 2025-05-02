@@ -31,7 +31,7 @@ class Seller(BaseModel):
         __str__():
             Returns a string representation of the seller, including the business name.
     """
-    user=models.ForeignKey(
+    user=models.OneToOneField(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='seller',
@@ -46,7 +46,7 @@ class Seller(BaseModel):
         verbose_name='SLUG'
     )
     inn_identification_number=models.CharField(max_length=12,verbose_name='ИНН')#юр лицо-10
-    website_url=models.URLField(null=True,verbose_name='URL-адрес сайта бизнеса ')
+    website_url=models.URLField(null=True,verbose_name='URL-адрес сайта бизнеса',blank=True)
     phone_number=PhoneNumberField(region='BY', verbose_name='Номер телефона')
     business_description=models.TextField(null=True,verbose_name='Описание бизнеса')
     #address
