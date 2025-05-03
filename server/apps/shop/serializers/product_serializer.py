@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from rest_framework import serializers
 
 from apps.shop.models import Product, ProductImages, Category
@@ -48,7 +49,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields=('slug',)
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    category_slug=serializers.SlugField(write_only=True)
+    category_slug=serializers.CharField(write_only=True)
     images=serializers.ListField(
         child=serializers.ImageField(),
         min_length=1,
@@ -65,6 +66,12 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             'category_slug',
             'images'
         )
+        extra_kwargs={
+            'price_current': {
+                'validators': [MinValueValidator(0.0)],
+            }
+        }
+
     def create(self, validated_data):
         seller=self.context['seller']
         category_slug=validated_data.pop('category_slug')

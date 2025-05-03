@@ -26,7 +26,8 @@ class ProductView(APIView):
         except Seller.DoesNotExist:
             return Response({
                 'message': 'You do not have permission to view this product.'
-            }, status=status.HTTP_403_FORBIDDEN
+            },
+                status=status.HTTP_403_FORBIDDEN
             )
 
         products = Product.objects.select_related('category').prefetch_related('images').filter(seller=seller)
