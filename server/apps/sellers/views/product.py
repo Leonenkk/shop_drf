@@ -11,7 +11,7 @@ from apps.shop.serializers import ProductSerializer, ProductCreateSerializer
 tags = ['Sellers']
 
 
-class ProductView(APIView):
+class SellerProductsView(APIView):
     serializer_class = ProductSerializer
 
     @extend_schema(
@@ -61,3 +61,7 @@ class ProductView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
