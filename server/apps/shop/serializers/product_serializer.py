@@ -10,7 +10,7 @@ class SellerShopSerializer(serializers.Serializer):
     slug=serializers.SlugField()
     avatar=serializers.SerializerMethodField()
 
-    def get_avatar(self,obj):
+    def get_avatar(self,obj)->str|None:
         request=self.context.get('request')
         if not obj.user.avatar:
             return None
@@ -91,3 +91,25 @@ class ProductCreateSerializer(serializers.ModelSerializer):
                 image=image,
             )
         return product
+
+    def update(self, instance, validated_data):#instance - текущее сост, validated_data-новое
+        if 'price_current' in validated_data:
+            if validated_data['price_current'] != instance.price_current:
+                validated_data['price_old']=instance.price_current
+        if 'category_slug' in validated_data:
+            category_slug=validated_data.pop('category_slug')
+            category=Category.objects.get_or_none(slug=category_slug)
+            if not category:
+                raise serializers.ValidationError('There is no such category')
+            instance.category=category
+        if 'images' in validated_data:
+            instance.images.all().delete()
+            images=validated_data.pop('images')
+            for order,image in enumerate(images,start=1):
+                ProductImages.objects.create(
+                    product=instance,
+                    order=order,
+                    image=image,
+                )
+        return super().update(instance, validated_data)
+
