@@ -3,16 +3,14 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from apps.shop.models import Product
-from apps.shop.serializers import  ProductCreateSerializer
+from apps.shop.serializers import ProductCreateSerializer, ProductSerializer
 
 tags = ['Sellers']
 
 
 class SellerProductView(APIView):
     serializer_class = ProductCreateSerializer
-
 
     @extend_schema(
         summary='Update product',
@@ -21,20 +19,20 @@ class SellerProductView(APIView):
         If current product belongs to seller and exists
         """,
         request=ProductCreateSerializer,
-        responses=ProductCreateSerializer,
+        responses=ProductSerializer,
         tags=tags
     )
     def put(self, request, *args, **kwargs):
-        product=get_object_or_404(Product,slug=kwargs['slug'])
+        product = get_object_or_404(Product, slug=self.kwargs['slug'])
         if product.seller != request.user.seller:
             return Response({
-            'message': 'You do not have permission to edit this product.'
-            },status=status.HTTP_403_FORBIDDEN
-        )
+                'message': 'You do not have permission to edit this product.'
+            }, status=status.HTTP_403_FORBIDDEN
+            )
         serializer = self.serializer_class(
             instance=product,
             data=request.data,
-            partial=True #не забыть если что убрать и patch написать
+            partial=True  # не забыть если что убрать и patch написать
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -47,8 +45,8 @@ class SellerProductView(APIView):
         """,
         tags=tags
     )
-    def delete(self,request,*args,**kwargs):
-        product=get_object_or_404(Product,slug=kwargs['slug'])
+    def delete(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, slug=kwargs['slug'])
         if product.seller != request.user.seller:
             return Response({
                 'message': 'You do not have permission to edit this product.'
@@ -57,9 +55,4 @@ class SellerProductView(APIView):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-#patch запрос для частичного удаления, изменения порядка и добавления фото (add,remove,reorder)
-
-
-
-
+# patch запрос для частичного удаления, изменения порядка и добавления фото (add,remove,reorder)

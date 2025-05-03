@@ -16,6 +16,9 @@ class SellerProductsView(APIView):
 
     @extend_schema(
         summary='Get seller products',
+        description="""
+        This method allows seller get all his products
+        """,
         tags=tags
     )
     def get(self, request, *args, **kwargs):
@@ -24,12 +27,11 @@ class SellerProductsView(APIView):
             if not seller.is_approved:
                 raise PermissionDenied()
         except Seller.DoesNotExist:
-            return Response({
+            return Response(
+                {
                 'message': 'You do not have permission to view this product.'
-            },
-                status=status.HTTP_403_FORBIDDEN
-            )
-
+            },status=status.HTTP_403_FORBIDDEN
+        )
         products = Product.objects.select_related('category').prefetch_related('images').filter(seller=seller)
         serializer = self.serializer_class(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -61,7 +63,4 @@ class SellerProductsView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-
 
