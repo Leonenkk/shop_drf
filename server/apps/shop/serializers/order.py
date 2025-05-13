@@ -1,24 +1,36 @@
+from django.core.validators import MinValueValidator
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from apps.profiles.models import OrderItem
-from apps.sellers.serializers import SellerSerializer
-from apps.shop.models import Product
+from apps.profiles.serializers import ShippingAddressSerializer
 
 
-class OrderItemProductSerializer(serializers.ModelSerializer):
-    seller = SellerSerializer()
-
-    class Meta:
-        model = Product
-        fields = ("seller", "name", "slug", "price_current")
+class CheckoutSerializer(serializers.Serializer):
+    shipping_id = serializers.UUIDField()
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
-    product = OrderItemProductSerializer()
-    slug = serializers.SlugRelatedField(
-        source="product", slug_field="slug", queryset=Product.objects.all()
-    )  # аналог-SlugField + валидация в Create и Update, дает нам больше контроля
+class OrderSerializer(serializers.Serializer):
+    tx_ref = serializers.CharField()
+    first_name = serializers.CharField(source="user.first_name")
+    last_name = serializers.CharField(source="user.last_name")
+    email = serializers.EmailField(source="user.email")
+    delivery_status = serializers.CharField()
+    payment_status = serializers.CharField()
+    date_delivered = serializers.DateTimeField()
+    shipping_details = serializers.SerializerMethodField()
+    subtotal = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        source="get_cart_subtotal",
+        validators=[MinValueValidator(0.0)],
+    )
+    total = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        source="get_cart_total",
+        validators=[MinValueValidator(0.0)],
+    )
 
-    class Meta:
-        model = OrderItem
-        fields = ("quantity", "product", "get_total_price", "slug", "user")
+    @extend_schema_field(ShippingAddressSerializer)
+    def get_shipping_details(self, obj):
+        return ShippingAddressSerializer(obj).data
