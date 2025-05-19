@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.common.permissions import IsCartOwner
 from apps.profiles.models import OrderItem, ShippingAddress, Order
 from apps.shop.serializers.order import (
     CheckoutSerializer,
@@ -15,6 +16,7 @@ tags = ["Order"]
 
 class CheckoutView(APIView):
     serializer_class = CheckoutSerializer
+    permission_classes = (IsCartOwner,)
 
     @extend_schema(
         summary="Checkout",
@@ -65,6 +67,7 @@ class CheckoutView(APIView):
 
 class OrdersView(APIView):
     serializer_class = OrderSerializer
+    permission_classes = (IsCartOwner,)
 
     @extend_schema(
         summary="User orders",
@@ -86,6 +89,7 @@ class OrdersView(APIView):
 
 class OrderItemView(APIView):
     serializer_class = CheckItemOrderSerializer
+    permission_classes = (IsCartOwner,)
 
     @extend_schema(
         summary="Items from order",

@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.common.permissions import IsSeller
 from apps.profiles.models import Order, OrderItem
 from apps.shop.serializers.order import OrderSerializer, CheckItemOrderSerializer
 
@@ -10,7 +11,7 @@ tags = ["Sellers"]
 
 
 class SellerOrderView(APIView):
-
+    permission_classes = (IsSeller,)
     serializer_class = OrderSerializer
 
     @extend_schema(
@@ -29,7 +30,7 @@ class SellerOrderView(APIView):
 
 
 class SellerOrderItemsView(APIView):
-
+    permission_classes = (IsSeller,)
     serializer_class = CheckItemOrderSerializer
 
     @extend_schema(

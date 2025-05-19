@@ -3,13 +3,16 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.common.permissions import IsOwner
 from apps.profiles.models import ShippingAddress
 from apps.profiles.serializers import ShippingAddressSerializer
 
-tags=['Profiles']
+tags = ["Profiles"]
+
 
 class ShippingAddressView(APIView):
     serializer_class = ShippingAddressSerializer
+    permission_classes = (IsOwner,)
 
     @extend_schema(
         summary="Shipping Addresses Fetch",
@@ -19,24 +22,24 @@ class ShippingAddressView(APIView):
         tags=tags,
     )
     def get(self, request):
-        user=request.user
-        shipping_addresses=ShippingAddress.objects.select_related('user').filter(user=user)
-        serializer=self.serializer_class(shipping_addresses, many=True)
+        user = request.user
+        shipping_addresses = ShippingAddress.objects.select_related("user").filter(
+            user=user
+        )
+        serializer = self.serializer_class(shipping_addresses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
-        summary='Create Shipping Addresses',
+        summary="Create Shipping Addresses",
         description="""
         This endpoint creates a new shipping address associated with a user.
         """,
         tags=tags,
     )
     def post(self, request):
-        serializer=self.serializer_class(
-            data=request.data,
-            context={'request': request}
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-

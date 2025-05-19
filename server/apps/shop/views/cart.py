@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.common.permissions import IsCartOwner
 from apps.profiles.models import OrderItem
 from apps.shop.serializers.cart import OrderItemSerializer
 
@@ -11,6 +12,7 @@ tags = ["Cart"]
 
 class CartView(APIView):
     serializer_class = OrderItemSerializer
+    permission_classes = (IsCartOwner,)
 
     @extend_schema(
         operation_id="get_cart_item",
@@ -45,6 +47,7 @@ class CartView(APIView):
 
 
 class CartDetailView(APIView):
+    permission_classes = (IsCartOwner,)
     serializer_class = OrderItemSerializer
 
     def get_cart_item(self, user, slug):
