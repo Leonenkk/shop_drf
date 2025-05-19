@@ -1,13 +1,12 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes
-from apps.shop.models import Category
-from apps.shop.serializers import CategorySerializer
 from rest_framework.views import APIView
 
-tags = ['Shop']
+from apps.shop.models import Category
+from apps.shop.serializers import CategorySerializer
+
+tags = ["Shop"]
 
 
 class CategoryView(APIView):
@@ -18,27 +17,27 @@ class CategoryView(APIView):
         description="""
                 This endpoint returns all categories.
             """,
-        tags=tags
+        tags=tags,
     )
     def get(self, request):
         categories = Category.objects.all()
         serializer = self.serializer_class(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-#@permission_classes([IsAdminUser]) чет пока не ворк
     @extend_schema(
         summary="Category Creating",
         description="""
             This endpoint creates categories.
         """,
-        tags=tags
+        tags=tags,
     )
     def post(self, request):
         if not request.user.is_staff:
             return Response(
                 {
-                    'message': 'Only admin users can create categories.',
-                },status=status.HTTP_403_FORBIDDEN
+                    "message": "Only admin users can create categories.",
+                },
+                status=status.HTTP_403_FORBIDDEN,
             )
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -7,6 +7,8 @@ from apps.shop.serializers import SellerShopSerializer
 
 
 class OrderItemProductSerializer(serializers.ModelSerializer):
+    """Use to get selected item from cart"""
+
     seller = SellerShopSerializer()
 
     class Meta:
@@ -15,6 +17,8 @@ class OrderItemProductSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    """Use to get all items from cart"""
+
     product = OrderItemProductSerializer(read_only=True)
     slug = serializers.CharField(required=True, write_only=True)
     total_price_field = serializers.SerializerMethodField()
